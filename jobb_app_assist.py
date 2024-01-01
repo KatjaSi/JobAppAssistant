@@ -23,7 +23,7 @@ def main():
 
     with st.container():
         with left_col:
-            image_orginal = Image.open("img\woman_assistant.png")
+            image_orginal = Image.open("img/woman_assistant.png")
             st.image(image=image_orginal, use_column_width=True)
 
         with right_col:
