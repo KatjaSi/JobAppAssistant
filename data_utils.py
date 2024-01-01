@@ -1,4 +1,3 @@
-import chromadb
 from  urllib import request
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
