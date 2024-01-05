@@ -1,10 +1,9 @@
-import os
+import PyPDF2
 from  urllib import request
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores.chroma import Chroma
 from bs4 import BeautifulSoup
-import PyPDF2
 
 def chunk_data(data, chunk_size=256, chunk_overlap=20):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
