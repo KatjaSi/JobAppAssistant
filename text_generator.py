@@ -16,18 +16,18 @@ load_dotenv(find_dotenv(), override=True)
 
 #def generate_application(company, position, candidate_description):
 def generate_application(job_info, candidate_info):
-    print(job_info['position'])
     template = f" Write a cover letter in norwegian language\
           to apply for a postion {job_info['position']} with a following requirements: {job_info['key_qualifications']} in company with describtion: {job_info['company_info']}\
               for a candidate with the folowing qualifications: {candidate_info['qualifications']}.\
-                Take into consideration this information about candidate experience: {candidate_info['years of experience']}. Candidate name is {candidate_info['name']}."
+                Take into consideration this information about candidate experience: {candidate_info['years of experience']}. Candidate name is {candidate_info['name']}.\
+                    Answer the question: 'Why should you hire me?'"
 
     prompt = PromptTemplate(
         input_variables=['position', 'requirements', 'company', 'candidate_description', 'experience','name'],
         template=template
     )
 
-    llm = OpenAI(model_name="text-davinci-003", temperature=0.7, max_tokens=1400)
+    llm = OpenAI(model_name="text-davinci-003", temperature=0.7, max_tokens=2048)
     output = llm(prompt.format( job_info=job_info, candidate_info=candidate_info))
     
     return output
