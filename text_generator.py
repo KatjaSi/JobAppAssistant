@@ -27,7 +27,7 @@ def generate_application(job_info, candidate_info):
         template=template
     )
 
-    llm = OpenAI(model_name="text-davinci-003", temperature=0.7, max_tokens=2048)
+    llm = OpenAI(model_name="text-davinci-003", temperature=0.7, max_tokens=1500)
     output = llm(prompt.format( job_info=job_info, candidate_info=candidate_info))
     
     return output
