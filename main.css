@@ -1,10 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;200&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;400&display=swap'); 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600&display=swap');
 
 body *{
     font-family: 'Roboto', sans-serif;
-    font-weight: 100;
+    font-weight: 200;
    }
+
+h3 {
+    margin-bottom: 30px;
+}
 
 button *{
     font-family: 'Montserrat', sans-serif;
@@ -22,13 +26,48 @@ div[data-testid="stExpander"] p{
     font-size: 18px;
 }
 
-div[data-testid="stExpanderDetails"] p{
+div[data-testid="stExpanderDetails"] *{
     font-family: 'Roboto', sans-serif;
-    font-weight: 200;
+    font-weight: 400;
     font-size: 16px;
 }
 
+div[data-testid="stExpanderDetails"] p{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+}
 
 div.stButton > button:first-child {
     background-color:#e9753c;
+    color: #fff;
+}
+
+div[data-testid*="stHorizontalBlock"] > div:nth-child(1) button,
+div[data-testid*="stHorizontalBlock"] > div:nth-child(2) button {
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: white;
+    color: black;
+    outline: currentColor;
+}
+
+div[data-testid*="stHorizontalBlock"] > div:nth-child(1) button:focus,
+div[data-testid*="stHorizontalBlock"] > div:nth-child(1) button:hover,
+div[data-testid*="stHorizontalBlock"] > div:nth-child(2) button:focus,
+div[data-testid*="stHorizontalBlock"] > div:nth-child(2) button:hover {
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: white;
+    color: black;
+    outline: currentColor;
+    border-color: currentColor;
+}
+
+div[data-testid*="stSidebarContent"]  h3 {
+    margin-bottom: 5px;
 }

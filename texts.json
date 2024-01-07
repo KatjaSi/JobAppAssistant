@@ -1,0 +1,66 @@
+{
+    "welcome_message": {
+      "en": "Job Search With Ease :beach_with_umbrella:",
+      "no": "Jobbsøk lekende lett :beach_with_umbrella:"
+    },
+    "need_help_message": {
+        "en": "Need help writing a job application?",
+        "no": "Trenger du hjelp til å skrive en jobbsøknad?"
+    },
+    "choose_lan_msg": {
+        "en": "Choose language:",
+        "no": "Velg språk:"
+    },
+    "job_http": {
+        "en": "Please paste the URL to the job advertisement here:",
+        "no": "Lim inn URL til jobbannonsen her:"
+    },
+    "upload_cv_message": {
+        "en": "Upload your CV here:",
+        "no": "Last opp din CV her:"
+    },
+    "generate_app_message": {
+        "en": "Generate Application!",
+        "no": "Generer Søknad!"
+    },
+    "did_not_get_cv_msg": {
+        "en": "I really need you CV to write a cover letter for you :woman-pouting:",
+        "no": "Jeg trenger virkelig CV-en din for å skrive et søknadsbrev for deg :woman-pouting:"
+    },
+    "extract_from_job_app_msg": {
+        "en": "Extracting information from the job announcement... wait a bit..",
+        "no": "Samler informasjon fra jobbannonsen... vent litt.."
+    },
+    "hiring_company_expander_heading": {
+        "en": "Hiring Company:",
+        "no": "Arbeidsgiver:"
+    },
+    "qualifications_required_expander_heading": {
+        "en": "Key Qualifications Required:",
+        "no": "Kvalifikasjonskrav:"
+    },
+    "fit_for_position_spinner_msg": {
+        "en": "Let's find out about your qualifications and how well you fit for the position  :female-technologist: \nThere is something good about everyone :fox_face:",
+        "no": "La oss finne ut om dine kvalifikasjoner og hvor godt du passer til stillingen  :female-technologist: \nAlle har sine sterke sider :fox_face:"
+    },
+    "your_qualifications_expander_msg": {
+        "en": "Your Qualifications:",
+        "no": "Din Kompetanse:"
+    },
+    "your_working_experience_expander_msg": {
+        "en": "Your Working Experience:",
+        "no": "Din Arbeidserfaring"
+    },
+    "generating_app_soinner_msg": {
+        "en": "Generating cover letter... Let's highlight your best qualities :stuck_out_tongue_winking_eye:",
+        "no": "Genererer jobbsøknad... La oss fremheve dine beste egenskaper :stuck_out_tongue_winking_eye:"
+    },
+    "cover_letter_heading": {
+        "en": "Cover Letter:",
+        "no": "Jobbsøknad:"
+    },
+    "choose_app_lan_msg": {
+        "en": "Choose language for cover letter:",
+        "no": "Velg språk for jøbbsøknad:"
+    }
+  }
