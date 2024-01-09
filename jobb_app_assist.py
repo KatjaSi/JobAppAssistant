@@ -2,13 +2,24 @@ import streamlit as st
 import json
 from langchain.vectorstores import chroma
 
-from data_utils import scrap_from_job_ad, read_pdf
+from data_utils import scrap_from_job_ad, read_pdf, text_to_pdf
 from PIL import Image
 from time import sleep
 
 from text_generator import generate_application, get_key_info, extract_candidate_info
 
-st.session_state['app_lan_key'] = 0
+if 'app_lan_key' not in st.session_state:
+    st.session_state['app_lan_key'] = 0
+
+if 'key_info' not in st.session_state:
+    st.session_state['key_info'] = {}
+
+if 'info' not in st.session_state:
+    st.session_state['info'] = {}
+
+if 'generated_text' not in st.session_state:
+    st.session_state['generated_text'] = ""
+
 
 def load_texts():
     with open("texts.json", "r", encoding="utf-8") as file:
@@ -72,12 +83,13 @@ def main():
                 # TODO: add error handling here
                 job_info = scrap_from_job_ad(path=http_job)
                 key_info = get_key_info(job_info, language=app_language)
+                st.session_state.key_info.update(key_info)
             
             with st.expander(st.session_state.all_texts['hiring_company_expander_heading'][selected_language]):
-                st.write(key_info['company_info'])
+                st.write(st.session_state.key_info['company_info'])
                 
             with st.expander(st.session_state.all_texts['qualifications_required_expander_heading'][selected_language]):
-                st.write(key_info['key_qualifications'])
+                st.write(st.session_state.key_info['key_qualifications'])
 
             st.divider()
             with st.spinner(st.session_state.all_texts['fit_for_position_spinner_msg'][selected_language]):
@@ -85,18 +97,44 @@ def main():
             
                 text = read_pdf(cv_file)
                 info = extract_candidate_info(candidate_info_text=text, job_info=key_info, language=app_language)
+                st.session_state.info.update(info)
             with st.expander(st.session_state.all_texts['your_qualifications_expander_msg'][selected_language]):
-                st.write(info["qualifications"])
+                st.write(st.session_state.info["qualifications"])
                 #st.write(info["current position"])
             with st.expander(st.session_state.all_texts['your_working_experience_expander_msg'][selected_language]):
-                st.write(info["years of experience"])
+                st.write(st.session_state.info["years of experience"])
             with st.spinner(st.session_state.all_texts['generating_app_soinner_msg'][selected_language]):
                 sleep(60)   
                 text = generate_application(job_info=key_info, candidate_info=info, language=app_language)
                 st.divider()
                 st.subheader(st.session_state.all_texts['cover_letter_heading'][selected_language])
-                st.text_area("", text, height=700)
-            
+                st.session_state['generated_text'] = text
+                st.text_area("", st.session_state['generated_text'], height=600) 
+        else:
+            if st.session_state.key_info:
+                with st.expander(st.session_state.all_texts['hiring_company_expander_heading'][selected_language]):
+                    st.write(st.session_state.key_info['company_info'])
+                with st.expander(st.session_state.all_texts['qualifications_required_expander_heading'][selected_language]):
+                    st.write(st.session_state.key_info['key_qualifications'])    
+                st.divider()
+            if st.session_state.info:
+                with st.expander(st.session_state.all_texts['your_qualifications_expander_msg'][selected_language]):
+                    st.write(st.session_state.info["qualifications"])
+                with st.expander(st.session_state.all_texts['your_working_experience_expander_msg'][selected_language]):
+                    st.write(st.session_state.info["years of experience"])
+            if st.session_state.generated_text:
+                st.divider()
+                st.subheader(st.session_state.all_texts['cover_letter_heading'][selected_language])
+                st.text_area("", st.session_state['generated_text'], height=600) 
+
+        if st.session_state['generated_text']:
+            st.download_button(
+                label="Download PDF",
+                data=text_to_pdf(st.session_state['generated_text']).output(dest="S").encode("latin-1"),
+                file_name="text_to_pdf.pdf",
+                mime="application/pdf",
+            )
+
 
 
 if __name__ == "__main__":

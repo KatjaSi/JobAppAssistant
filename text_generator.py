@@ -1,7 +1,7 @@
 import datetime
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv, find_dotenv
-from langchain.llms import OpenAI
+from langchain.llms.openai import OpenAI
 from langchain.chains import LLMChain
 from langchain.schema import (
     AIMessage,
@@ -23,24 +23,26 @@ LANGUAGE_VALUES = {
 
 def generate_application(job_info, candidate_info, language):
     language = LANGUAGE_VALUES[language]
-    eng_template = f" Write a cover letter in norwegian language\
-          to apply for a postion {job_info['position']} with a following requirements: {job_info['key_qualifications']} in company with describtion: {job_info['company_info']}\
+    eng_template = f" Write a cover letter\
+          to apply for a postion {job_info['position']} with a following requirements: {job_info['key_qualifications']}\
               for a candidate with the folowing qualifications: {candidate_info['qualifications']}.\
-                Take into consideration this information about candidate experience: {candidate_info['years of experience']}. Candidate name is {candidate_info['name']}.\
-                    Answer the question: 'Why should you hire me?'"
-    no_template = f"Generer et søknadsbrev på norsk språk for å søke på stillingen {job_info['position']} med følgende krav: {job_info['key_qualifications']} \
+                Take into consideration this information about candidate experience: {candidate_info['years of experience']}. Candidate name is {candidate_info['name']}."
+    no_template = f"Generer et søknadsbrev for å søke på stillingen {job_info['position']} \
         i selskapet med beskrivelse: {job_info['company_info']} for en kandidat med følgende kvalifikasjoner: {candidate_info['qualifications']}. \
             Ta hensyn til denne informasjonen om kandidatens erfaring: \
-        {candidate_info['years of experience']}. Kandidatens navn er {candidate_info['name']}. Besvar spørsmålet: 'Hvorfor bør du ansette meg?'"
-    prompt = PromptTemplate(
-        input_variables=['position', 'requirements', 'company', 'candidate_description', 'experience','name'],
-        template=eng_template if language=="English" else no_template
-    )
+        {candidate_info['years of experience']}. Kandidatens navn er {candidate_info['name']}."
 
-    llm = OpenAI(model_name="text-davinci-003", temperature=0.6, max_tokens=1024)
-    output = llm(prompt.format( job_info=job_info, candidate_info=candidate_info))
+    llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.6, max_tokens=1024) #, max_tokens=1024
+
+
+    messages = [
+        HumanMessage(content=eng_template if language=="English" else no_template),
+        SystemMessage(content="Structure the text in three or four paragraphs."),
+        SystemMessage(content=f"The provided text should be in {language} language."),
+    ]
+    output = llm(messages)
     
-    return output
+    return output.content
 
 
 def get_key_info(job_info, language):
@@ -93,9 +95,9 @@ def extract_candidate_info(candidate_info_text, job_info, language):
     name = llm(messages).content
     info["name"] = name
 
-    human_message_en = f"Extract the candidate's main qualifications from the provided CV snippet (not more than six) : {candidate_info_text}. \
+    human_message_en = f"Extract the candidate's main qualifications from the provided CV snippet : {candidate_info_text}. \
                    Provide the answer as a list with each qualification in one line."
-    human_message_no = f"Finn kandidatens viktigste kvalifikasjoner fra den gitte CV-utdragsbiten (ikke mer enn seks): {candidate_info_text}.\
+    human_message_no = f"Finn kandidatens viktigste kvalifikasjoner fra den gitte CV-utdragsbiten: {candidate_info_text}.\
           Gi svaret som en liste med hver kvalifikasjon på en linje."
 
     messages_2 = [
